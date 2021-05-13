@@ -1,0 +1,15 @@
+{
+  "name": "barberian",
+  "description": "A barber app.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start:api": "yarn workspace @barberian/api start"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}
