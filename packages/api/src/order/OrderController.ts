@@ -1,5 +1,25 @@
 import { Context } from 'koa';
-import { OrderService } from './OrderService';
+import { Order } from '../entities/Order';
+import { OrderService } from './services/OrderService';
+
+function koaHandleResponse(ctx: Context, status: number, data: Order | string) {
+  const type = status >= 400 ? 'error' : 'success';
+  const options = {
+    success: {
+      success: true,
+      data,
+    },
+    error: {
+      success: false,
+      error: {
+        message: data,
+      },
+    },
+  };
+
+  ctx.status = status;
+  ctx.body = options[type];
+}
 
 export class OrderController {
   constructor(private orderService: OrderService) {}
@@ -8,21 +28,10 @@ export class OrderController {
     const { uuid } = ctx.params;
 
     try {
-      const doc = await this.orderService.findOrderById(uuid);
-
-      ctx.status = 200;
-      ctx.body = {
-        success: true,
-        data: doc,
-      };
+      const order = await this.orderService.findOrderById(uuid);
+      koaHandleResponse(ctx, 200, order);
     } catch (error) {
-      ctx.status = 404;
-      ctx.body = {
-        sucess: false,
-        error: {
-          message: error.message,
-        },
-      };
+      koaHandleResponse(ctx, 404, error.message);
     }
   }
 
@@ -30,21 +39,14 @@ export class OrderController {
     const { serviceType, commentary, price } = ctx.request.body;
 
     try {
-      const order = await this.orderService.createOrder({ serviceType, commentary, price });
-
-      ctx.status = 201;
-      ctx.body = {
-        success: true,
-        data: order,
-      };
+      const order = await this.orderService.createOrder({
+        serviceType,
+        commentary,
+        price,
+      });
+      koaHandleResponse(ctx, 200, order);
     } catch (error) {
-      ctx.status = 400;
-      ctx.body = {
-        sucess: false,
-        error: {
-          message: error.message,
-        },
-      };
+      koaHandleResponse(ctx, 400, error.message);
     }
   }
 }

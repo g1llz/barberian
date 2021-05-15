@@ -1,7 +1,7 @@
 import OrderModel from '../database/schema/order';
 import { OrderController } from './OrderController';
-import { OrderRepository } from './OrderRepository';
-import { OrderService } from './OrderService';
+import { OrderRepository } from './repositories/OrderRepository';
+import { OrderService } from './services/OrderService';
 
 const orderRepository = new OrderRepository(OrderModel);
 

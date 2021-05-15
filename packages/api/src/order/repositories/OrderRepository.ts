@@ -1,6 +1,6 @@
 import { IOrderRepository } from './IOrderRepository';
-import { Order } from '../entities/Order';
-import { IOrderModel } from '../database/interfaces';
+import { Order } from '../../entities/Order';
+import { IOrderModel } from '../../database/interfaces';
 
 export class OrderRepository implements IOrderRepository {
   constructor(private orderModel: IOrderModel) {}
