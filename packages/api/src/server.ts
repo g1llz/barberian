@@ -11,9 +11,9 @@ app.use(KoaBody());
 
 router
   .get('/orders/:uuid', (ctx: Context) => orderController.show(ctx))
-  .post('/orders', (ctx: Context) => orderController.create(ctx));
-// .put('/orders/:uuid', orderController.update)
-// .delete('/orders/:uuid', orderController.remove);
+  .post('/orders', (ctx: Context) => orderController.create(ctx))
+  .put('/orders/:uuid', (ctx: Context) => orderController.update(ctx))
+  .delete('/orders/:uuid', (ctx: Context) => orderController.remove(ctx));
 
 app.use(router.routes());
 

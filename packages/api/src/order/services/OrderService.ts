@@ -1,5 +1,5 @@
 import { Order } from '../../entities/Order';
-import { ICreateOrderRequestDTO } from './ICreateOrderRequestDTO';
+import { ICreateOrderRequestDTO, IUpdateOrderRequestDTO } from './IOrderRequestDTO';
 import { IOrderRepository } from '../repositories/IOrderRepository';
 
 export class OrderService {
@@ -12,5 +12,14 @@ export class OrderService {
   async createOrder(data: ICreateOrderRequestDTO) {
     const order = new Order(data);
     return this.orderRepository.create(order);
+  }
+
+  async updateOrder(data: IUpdateOrderRequestDTO) {
+    const order = new Order(data, data.uuid);
+    return this.orderRepository.update(order);
+  }
+
+  async removeOrder(uuid: string) {
+    return this.orderRepository.remove(uuid);
   }
 }
